@@ -1,31 +1,10 @@
 import 'package:flutter/material.dart';
 import 'database_helper.dart';
 import 'product_model.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // Inisialisasi database saat app pertama kali dijalankan
-  await DatabaseHelper().database;
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Toko HP',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        scaffoldBackgroundColor: Colors.grey[100],
-      ),
-      home: HomePage(),
-    );
-  }
-}
+import 'manageproduct.dart';
 
 // ================================================================
-// HOME PAGE — load produk dari SQLite
+// HOME PAGE
 // ================================================================
 class HomePage extends StatefulWidget {
   @override
@@ -46,11 +25,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _loadProducts() async {
-    final data = await _db.getAllProducts();
-    setState(() {
-      products = data;
-      isLoading = false;
-    });
+    try {
+      final data = await _db.getAllProducts();
+      setState(() {
+        products = data;
+        isLoading = false;
+      });
+    } catch (e) {
+      print('DEBUG ERROR: $e');
+      setState(() => isLoading = false);
+    }
   }
 
   @override
@@ -64,6 +48,18 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(color: Colors.black, fontSize: 16),
         ),
         actions: [
+          // Tombol Kelola Produk
+          IconButton(
+            icon: Icon(Icons.inventory_2_outlined, color: Colors.orange),
+            tooltip: 'Kelola Produk',
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => ManageProductPage()),
+              );
+              _loadProducts(); // refresh setelah kembali
+            },
+          ),
           IconButton(
             icon: Icon(Icons.notifications_outlined, color: Colors.black),
             onPressed: () {},
@@ -72,81 +68,150 @@ class _HomePageState extends State<HomePage> {
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator(color: Colors.orange))
-          : SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Banner Promo
-                  Container(
-                    margin: EdgeInsets.all(16),
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Colors.orange, Colors.orangeAccent],
+          : RefreshIndicator(
+              color: Colors.orange,
+              onRefresh: _loadProducts,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Banner Promo
+                    Container(
+                      margin: EdgeInsets.all(16),
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.orange, Colors.orangeAccent],
+                        ),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      borderRadius: BorderRadius.circular(12),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Promo Hari Ini',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  'Diskon hingga 50%',
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.phone_android,
+                            color: Colors.white,
+                            size: 50,
+                          ),
+                        ],
+                      ),
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Promo Hari Ini',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+
+                    // Header jumlah produk
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Semua Produk',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${products.length} produk',
+                            style: TextStyle(color: Colors.grey, fontSize: 13),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 12),
+
+                    // Grid Produk
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: products.isEmpty
+                          ? Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(40),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.inventory_2_outlined,
+                                      size: 60,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(height: 12),
+                                    Text(
+                                      'Belum ada produk',
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                    SizedBox(height: 8),
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => ManageProductPage(),
+                                          ),
+                                        );
+                                        _loadProducts();
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.orange,
+                                      ),
+                                      child: Text('Tambah Produk'),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              SizedBox(height: 4),
-                              Text(
-                                'Diskon hingga 50%',
-                                style: TextStyle(
-                                    color: Colors.white70, fontSize: 14),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Icon(Icons.phone_android,
-                            color: Colors.white, size: 50),
-                      ],
+                            )
+                          : GridView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 0.68,
+                                    crossAxisSpacing: 12,
+                                    mainAxisSpacing: 12,
+                                  ),
+                              itemCount: products.length,
+                              itemBuilder: (context, index) {
+                                return ProductCard(
+                                  product: products[index],
+                                  onTap: () async {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => DetailPage(
+                                          product: products[index],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
                     ),
-                  ),
-
-                  // Grid Products dari database
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.7,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
-                      ),
-                      itemCount: products.length,
-                      itemBuilder: (context, index) {
-                        return ProductCard(
-                          product: products[index],
-                          onTap: () async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    DetailPage(product: products[index]),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                ],
+                    SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
       bottomNavigationBar: BottomNavigationBar(
@@ -156,17 +221,17 @@ class _HomePageState extends State<HomePage> {
           if (index == 1) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FavoritePage()),
+              MaterialPageRoute(builder: (_) => FavoritePage()),
             ).then((_) => setState(() => _currentIndex = 0));
           } else if (index == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CartPage()),
+              MaterialPageRoute(builder: (_) => CartPage()),
             ).then((_) => setState(() => _currentIndex = 0));
           } else if (index == 3) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProfilePage()),
+              MaterialPageRoute(builder: (_) => ProfilePage()),
             ).then((_) => setState(() => _currentIndex = 0));
           }
         },
@@ -176,11 +241,17 @@ class _HomePageState extends State<HomePage> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border), label: 'Favorite'),
+            icon: Icon(Icons.favorite_border),
+            label: 'Favorite',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart_outlined), label: 'Cart'),
+            icon: Icon(Icons.shopping_cart_outlined),
+            label: 'Cart',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline), label: 'Profile'),
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
         ],
       ),
     );
@@ -188,7 +259,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 // ================================================================
-// PRODUCT CARD WIDGET
+// PRODUCT CARD WIDGET — tampilkan warna
 // ================================================================
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -223,39 +294,34 @@ class ProductCard extends StatelessWidget {
                   product.image,
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.phone_android,
-                        size: 80, color: Colors.grey);
+                    return Icon(
+                      Icons.phone_android,
+                      size: 70,
+                      color: Colors.grey,
+                    );
                   },
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     product.name,
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 4),
                   Row(
                     children: [
-                      Icon(Icons.star, color: Colors.amber, size: 16),
-                      SizedBox(width: 4),
+                      Icon(Icons.star, color: Colors.amber, size: 14),
+                      SizedBox(width: 2),
                       Text(
-                        '${product.rating}',
-                        style: TextStyle(
-                            fontSize: 12, color: Colors.grey[600]),
-                      ),
-                      SizedBox(width: 4),
-                      Text(
-                        '(${product.reviews})',
-                        style: TextStyle(
-                            fontSize: 12, color: Colors.grey[600]),
+                        '${product.rating} (${product.reviews})',
+                        style: TextStyle(fontSize: 11, color: Colors.grey[600]),
                       ),
                     ],
                   ),
@@ -263,9 +329,22 @@ class ProductCard extends StatelessWidget {
                   Text(
                     product.price,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 13,
                       fontWeight: FontWeight.bold,
                       color: Colors.orange,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  // Badge Warna
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      product.color,
+                      style: TextStyle(fontSize: 10, color: Colors.orange[700]),
                     ),
                   ),
                 ],
@@ -279,7 +358,7 @@ class ProductCard extends StatelessWidget {
 }
 
 // ================================================================
-// DETAIL PAGE — tambah ke cart & favorite via SQLite
+// DETAIL PAGE
 // ================================================================
 class DetailPage extends StatefulWidget {
   final Product product;
@@ -319,7 +398,8 @@ class _DetailPageState extends State<DetailPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-            isFav ? 'Ditambahkan ke Favorite' : 'Dihapus dari Favorite'),
+          isFav ? 'Ditambahkan ke Favorite' : 'Dihapus dari Favorite',
+        ),
         duration: Duration(seconds: 1),
       ),
     );
@@ -364,15 +444,18 @@ class _DetailPageState extends State<DetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 300,
+                    height: 280,
                     color: Colors.white,
                     child: Center(
                       child: Image.asset(
                         widget.product.image,
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) {
-                          return Icon(Icons.phone_android,
-                              size: 150, color: Colors.grey);
+                          return Icon(
+                            Icons.phone_android,
+                            size: 140,
+                            color: Colors.grey,
+                          );
                         },
                       ),
                     ),
@@ -385,39 +468,82 @@ class _DetailPageState extends State<DetailPage> {
                         Text(
                           widget.product.name,
                           style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         SizedBox(height: 8),
                         Row(
                           children: [
                             Icon(Icons.star, color: Colors.amber, size: 20),
                             SizedBox(width: 4),
-                            Text('${widget.product.rating}',
-                                style: TextStyle(fontSize: 16)),
+                            Text(
+                              '${widget.product.rating}',
+                              style: TextStyle(fontSize: 16),
+                            ),
                             SizedBox(width: 8),
-                            Text('(${widget.product.reviews} reviews)',
-                                style: TextStyle(color: Colors.grey)),
+                            Text(
+                              '(${widget.product.reviews} reviews)',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            SizedBox(width: 12),
+                            // Badge warna
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.orange.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(
+                                  color: Colors.orange.withOpacity(0.3),
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.circle,
+                                    size: 10,
+                                    color: Colors.orange,
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    widget.product.color,
+                                    style: TextStyle(
+                                      color: Colors.orange,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
-                        SizedBox(height: 16),
+                        SizedBox(height: 12),
                         Text(
                           widget.product.price,
                           style: TextStyle(
-                            fontSize: 28,
+                            fontSize: 26,
                             fontWeight: FontWeight.bold,
                             color: Colors.orange,
                           ),
                         ),
                         SizedBox(height: 16),
-                        Text('Deskripsi',
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold)),
+                        Text(
+                          'Deskripsi',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         SizedBox(height: 8),
                         Text(
-                          'Produk smartphone terbaik dengan spesifikasi tinggi dan performa maksimal. Dilengkapi dengan kamera berkualitas tinggi dan baterai tahan lama.',
+                          'Produk smartphone terbaik dengan spesifikasi tinggi dan performa maksimal. Tersedia dalam warna ${widget.product.color}. Dilengkapi kamera berkualitas tinggi dan baterai tahan lama.',
                           style: TextStyle(
-                              color: Colors.grey[700], height: 1.5),
+                            color: Colors.grey[700],
+                            height: 1.5,
+                          ),
                         ),
                       ],
                     ),
@@ -432,9 +558,10 @@ class _DetailPageState extends State<DetailPage> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 4,
-                    offset: Offset(0, -2)),
+                  color: Colors.black12,
+                  blurRadius: 4,
+                  offset: Offset(0, -2),
+                ),
               ],
             ),
             child: Row(
@@ -446,12 +573,15 @@ class _DetailPageState extends State<DetailPage> {
                       backgroundColor: inCart ? Colors.grey : Colors.orange,
                       padding: EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
                     child: Text(
                       inCart ? 'Sudah di Keranjang' : 'Tambah ke Keranjang',
                       style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -465,7 +595,7 @@ class _DetailPageState extends State<DetailPage> {
 }
 
 // ================================================================
-// FAVORITE PAGE — data dari SQLite
+// FAVORITE PAGE
 // ================================================================
 class FavoritePage extends StatefulWidget {
   @override
@@ -496,8 +626,9 @@ class _FavoritePageState extends State<FavoritePage> {
     setState(() => favorites.removeAt(index));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-          content: Text('Produk dihapus dari Favorite'),
-          duration: Duration(seconds: 1)),
+        content: Text('Produk dihapus dari Favorite'),
+        duration: Duration(seconds: 1),
+      ),
     );
   }
 
@@ -516,51 +647,67 @@ class _FavoritePageState extends State<FavoritePage> {
       body: isLoading
           ? Center(child: CircularProgressIndicator(color: Colors.orange))
           : favorites.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.favorite_border,
-                          size: 80, color: Colors.grey),
-                      SizedBox(height: 16),
-                      Text('Belum ada produk favorit',
-                          style:
-                              TextStyle(color: Colors.grey, fontSize: 16)),
-                    ],
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.favorite_border, size: 80, color: Colors.grey),
+                  SizedBox(height: 16),
+                  Text(
+                    'Belum ada produk favorit',
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
                   ),
-                )
-              : ListView.builder(
-                  padding: EdgeInsets.all(16),
-                  itemCount: favorites.length,
-                  itemBuilder: (context, index) {
-                    final product = favorites[index];
-                    return Card(
-                      margin: EdgeInsets.only(bottom: 12),
-                      child: ListTile(
-                        leading: Image.asset(
-                          product.image,
-                          width: 60,
-                          errorBuilder: (c, e, s) =>
-                              Icon(Icons.phone_android, size: 40),
+                ],
+              ),
+            )
+          : ListView.builder(
+              padding: EdgeInsets.all(16),
+              itemCount: favorites.length,
+              itemBuilder: (context, index) {
+                final product = favorites[index];
+                return Card(
+                  margin: EdgeInsets.only(bottom: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ListTile(
+                    leading: Image.asset(
+                      product.image,
+                      width: 60,
+                      errorBuilder: (c, e, s) =>
+                          Icon(Icons.phone_android, size: 40),
+                    ),
+                    title: Text(
+                      product.name,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.price,
+                          style: TextStyle(color: Colors.orange),
                         ),
-                        title: Text(product.name),
-                        subtitle: Text(product.price,
-                            style: TextStyle(color: Colors.orange)),
-                        trailing: IconButton(
-                          icon: Icon(Icons.delete, color: Colors.red),
-                          onPressed: () =>
-                              _removeFavorite(product.id!, index),
+                        Text(
+                          'Warna: ${product.color}',
+                          style: TextStyle(fontSize: 11, color: Colors.grey),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      ],
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () => _removeFavorite(product.id!, index),
+                    ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }
 
 // ================================================================
-// CART PAGE — data dari SQLite, quantity bisa diubah
+// CART PAGE
 // ================================================================
 class CartPage extends StatefulWidget {
   @override
@@ -595,13 +742,11 @@ class _CartPageState extends State<CartPage> {
     }
   }
 
-  int get _totalPrice =>
-      cartItems.fold(0, (sum, item) => sum + item.subtotal);
+  int get _totalPrice => cartItems.fold(0, (sum, item) => sum + item.subtotal);
 
   String get _totalFormatted {
     final total = _totalPrice;
     final s = total.toString();
-    // Format angka dengan titik setiap 3 digit
     final result = StringBuffer();
     for (int i = 0; i < s.length; i++) {
       if ((s.length - i) % 3 == 0 && i != 0) result.write('.');
@@ -625,162 +770,192 @@ class _CartPageState extends State<CartPage> {
       body: isLoading
           ? Center(child: CircularProgressIndicator(color: Colors.orange))
           : cartItems.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.shopping_cart_outlined,
-                          size: 80, color: Colors.grey),
-                      SizedBox(height: 16),
-                      Text('Keranjang masih kosong',
-                          style:
-                              TextStyle(color: Colors.grey, fontSize: 16)),
-                    ],
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.shopping_cart_outlined,
+                    size: 80,
+                    color: Colors.grey,
                   ),
-                )
-              : Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        padding: EdgeInsets.all(16),
-                        itemCount: cartItems.length,
-                        itemBuilder: (context, index) {
-                          final item = cartItems[index];
-                          return Card(
-                            margin: EdgeInsets.only(bottom: 12),
-                            child: Padding(
-                              padding: EdgeInsets.all(12),
-                              child: Row(
+                  SizedBox(height: 16),
+                  Text(
+                    'Keranjang masih kosong',
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                  ),
+                ],
+              ),
+            )
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.all(16),
+                    itemCount: cartItems.length,
+                    itemBuilder: (context, index) {
+                      final item = cartItems[index];
+                      return Card(
+                        margin: EdgeInsets.only(bottom: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                item.image,
+                                width: 65,
+                                height: 65,
+                                errorBuilder: (c, e, s) =>
+                                    Icon(Icons.phone_android, size: 50),
+                              ),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.name,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                    SizedBox(height: 2),
+                                    Text(
+                                      item.price,
+                                      style: TextStyle(
+                                        color: Colors.orange,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Warna: ${item.color}',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Row(
                                 children: [
-                                  Image.asset(
-                                    item.image,
-                                    width: 70,
-                                    height: 70,
-                                    errorBuilder: (c, e, s) =>
-                                        Icon(Icons.phone_android, size: 50),
-                                  ),
-                                  SizedBox(width: 12),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(item.name,
-                                            style: TextStyle(
-                                                fontWeight:
-                                                    FontWeight.bold)),
-                                        SizedBox(height: 4),
-                                        Text(item.price,
-                                            style: TextStyle(
-                                                color: Colors.orange)),
-                                      ],
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.remove_circle_outline,
+                                      size: 22,
+                                    ),
+                                    onPressed: () => _updateQuantity(
+                                      item.productId,
+                                      item.quantity - 1,
+                                      index,
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                        icon: Icon(
-                                            Icons.remove_circle_outline),
-                                        onPressed: () => _updateQuantity(
-                                            item.productId,
-                                            item.quantity - 1,
-                                            index),
-                                      ),
-                                      Text('${item.quantity}',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16)),
-                                      IconButton(
-                                        icon: Icon(Icons.add_circle_outline,
-                                            color: Colors.orange),
-                                        onPressed: () => _updateQuantity(
-                                            item.productId,
-                                            item.quantity + 1,
-                                            index),
-                                      ),
-                                    ],
+                                  Text(
+                                    '${item.quantity}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.add_circle_outline,
+                                      color: Colors.orange,
+                                      size: 22,
+                                    ),
+                                    onPressed: () => _updateQuantity(
+                                      item.productId,
+                                      item.quantity + 1,
+                                      index,
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0, -2)),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Total:',
-                                  style: TextStyle(fontSize: 18)),
-                              Text(
-                                _totalFormatted,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.orange,
-                                ),
-                              ),
                             ],
                           ),
-                          SizedBox(height: 12),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CheckoutPage(
-                                      cartItems: cartItems,
-                                      total: _totalFormatted,
-                                    ),
-                                  ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.orange,
-                                padding:
-                                    EdgeInsets.symmetric(vertical: 16),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(8)),
-                              ),
-                              child: Text('Checkout',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        offset: Offset(0, -2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Total:', style: TextStyle(fontSize: 18)),
+                          Text(
+                            _totalFormatted,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orange,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => CheckoutPage(
+                                  cartItems: cartItems,
+                                  total: _totalFormatted,
+                                ),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: Text(
+                            'Checkout',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+              ],
+            ),
     );
   }
 }
 
 // ================================================================
-// CHECKOUT PAGE — tampilkan data cart + total dinamis
+// CHECKOUT PAGE
 // ================================================================
 class CheckoutPage extends StatefulWidget {
   final List<CartItem> cartItems;
   final String total;
-
   CheckoutPage({required this.cartItems, required this.total});
 
   @override
@@ -824,19 +999,24 @@ class _CheckoutPageState extends State<CheckoutPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Delivery Address',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(
+                'Delivery Address',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
               SizedBox(height: 12),
               Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Padding(
                   padding: EdgeInsets.all(12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Rifky',
-                          style:
-                              TextStyle(fontWeight: FontWeight.bold)),
+                      Text(
+                        'Rifky',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       SizedBox(height: 4),
                       Text('Jl. Contoh No. 123, Jakarta Selatan'),
                       Text('Jakarta, DKI Jakarta, 12345'),
@@ -845,67 +1025,98 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ),
               ),
               SizedBox(height: 20),
-              Text('Payment Method',
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(
+                'Payment Method',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
               SizedBox(height: 12),
               Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Column(
                   children: [
-                    _buildPaymentOption(1, Icons.account_balance,
-                        'DANA', Colors.blue),
                     _buildPaymentOption(
-                        2, Icons.payment, 'Gopay', Colors.green),
-                    _buildPaymentOption(3,
-                        Icons.account_balance_wallet, 'OVO', Colors.purple),
-                    _buildPaymentOption(4, Icons.credit_card,
-                        'ShopeePay', Colors.orange),
+                      1,
+                      Icons.account_balance,
+                      'DANA',
+                      Colors.blue,
+                    ),
+                    _buildPaymentOption(
+                      2,
+                      Icons.payment,
+                      'Gopay',
+                      Colors.green,
+                    ),
+                    _buildPaymentOption(
+                      3,
+                      Icons.account_balance_wallet,
+                      'OVO',
+                      Colors.purple,
+                    ),
+                    _buildPaymentOption(
+                      4,
+                      Icons.credit_card,
+                      'ShopeePay',
+                      Colors.orange,
+                    ),
                   ],
                 ),
               ),
               SizedBox(height: 20),
               Card(
                 color: Colors.orange,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Padding(
                   padding: EdgeInsets.all(16),
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Subtotal',
-                              style: TextStyle(color: Colors.white)),
-                          Text(_formatRupiah(_subtotalInt),
-                              style: TextStyle(color: Colors.white)),
+                          Text(
+                            'Subtotal',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            _formatRupiah(_subtotalInt),
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ],
                       ),
                       SizedBox(height: 8),
                       Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Ongkir',
-                              style: TextStyle(color: Colors.white)),
-                          Text(_formatRupiah(_ongkir),
-                              style: TextStyle(color: Colors.white)),
+                          Text('Ongkir', style: TextStyle(color: Colors.white)),
+                          Text(
+                            _formatRupiah(_ongkir),
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ],
                       ),
                       Divider(color: Colors.white54),
                       Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Total',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16)),
-                          Text(_formatRupiah(_grandTotal),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16)),
+                          Text(
+                            'Total',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            _formatRupiah(_grandTotal),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -917,23 +1128,23 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
-                    // Kosongkan cart setelah bayar
                     await _db.clearCart();
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => PaymentSuccessPage()),
+                      MaterialPageRoute(builder: (_) => PaymentSuccessPage()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
                     padding: EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
-                  child: Text('Bayar',
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold)),
+                  child: Text(
+                    'Bayar',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ],
@@ -944,7 +1155,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
 
   Widget _buildPaymentOption(
-      int value, IconData icon, String label, Color color) {
+    int value,
+    IconData icon,
+    String label,
+    Color color,
+  ) {
     return ListTile(
       leading: Icon(icon, color: color),
       title: Text(label),
@@ -975,8 +1190,7 @@ class PaymentSuccessPage extends StatelessWidget {
               SizedBox(height: 24),
               Text(
                 'Hooray! Payment Successful!',
-                style:
-                    TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 12),
@@ -989,18 +1203,19 @@ class PaymentSuccessPage extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
-                  },
+                  onPressed: () =>
+                      Navigator.of(context).popUntil((r) => r.isFirst),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
                     padding: EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
-                  child: Text('Kembali ke Home',
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold)),
+                  child: Text(
+                    'Kembali ke Home',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ],
@@ -1012,7 +1227,7 @@ class PaymentSuccessPage extends StatelessWidget {
 }
 
 // ================================================================
-// PROFILE PAGE — data dari SQLite
+// PROFILE PAGE
 // ================================================================
 class ProfilePage extends StatefulWidget {
   @override
@@ -1059,16 +1274,18 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Row(
                         children: [
                           IconButton(
-                            icon: Icon(Icons.arrow_back,
-                                color: Colors.white),
+                            icon: Icon(Icons.arrow_back, color: Colors.white),
                             onPressed: () => Navigator.pop(context),
                           ),
                           Spacer(),
-                          Text('Profile',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold)),
+                          Text(
+                            'Profile',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           Spacer(),
                           IconButton(
                             icon: Icon(Icons.edit, color: Colors.white),
@@ -1077,37 +1294,32 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
                     CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.white,
-                      child:
-                          Icon(Icons.person, size: 60, color: Colors.orange),
+                      child: Icon(Icons.person, size: 60, color: Colors.orange),
                     ),
                     SizedBox(height: 16),
                     Text(
                       profile?.name ?? '-',
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(height: 4),
                     Text(
                       profile?.email ?? '-',
-                      style:
-                          TextStyle(color: Colors.white70, fontSize: 14),
+                      style: TextStyle(color: Colors.white70, fontSize: 14),
                     ),
                     SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _buildStatCard(
-                            '${profile?.vouchers ?? 0}', 'Vouchers'),
-                        _buildStatCard(
-                            '${profile?.orders ?? 0}', 'Pesanan'),
-                        _buildStatCard(
-                            '${profile?.reviews ?? 0}', 'Ulasan'),
+                        _buildStatCard('${profile?.vouchers ?? 0}', 'Vouchers'),
+                        _buildStatCard('${profile?.orders ?? 0}', 'Pesanan'),
+                        _buildStatCard('${profile?.reviews ?? 0}', 'Ulasan'),
                       ],
                     ),
                     SizedBox(height: 30),
@@ -1124,13 +1336,25 @@ class _ProfilePageState extends State<ProfilePage> {
                           padding: EdgeInsets.all(16),
                           children: [
                             _buildMenuItem(
-                                Icons.person_outline, 'Account', () {}),
-                            _buildMenuItem(Icons.location_on_outlined,
-                                'Address', () {}),
-                            _buildMenuItem(Icons.receipt_outlined,
-                                'Transaction', () {}),
+                              Icons.person_outline,
+                              'Account',
+                              () {},
+                            ),
                             _buildMenuItem(
-                                Icons.help_outline, 'Help Center', () {}),
+                              Icons.location_on_outlined,
+                              'Address',
+                              () {},
+                            ),
+                            _buildMenuItem(
+                              Icons.receipt_outlined,
+                              'Transaction',
+                              () {},
+                            ),
+                            _buildMenuItem(
+                              Icons.help_outline,
+                              'Help Center',
+                              () {},
+                            ),
                             _buildMenuItem(Icons.logout, 'Logout', () {}),
                           ],
                         ),
@@ -1152,23 +1376,25 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       child: Column(
         children: [
-          Text(count,
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.orange)),
+          Text(
+            count,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.orange,
+            ),
+          ),
           SizedBox(height: 4),
-          Text(label,
-              style: TextStyle(fontSize: 12, color: Colors.grey)),
+          Text(label, style: TextStyle(fontSize: 12, color: Colors.grey)),
         ],
       ),
     );
   }
 
-  Widget _buildMenuItem(
-      IconData icon, String title, VoidCallback onTap) {
+  Widget _buildMenuItem(IconData icon, String title, VoidCallback onTap) {
     return Card(
       margin: EdgeInsets.only(bottom: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ListTile(
         leading: Icon(icon, color: Colors.orange),
         title: Text(title),

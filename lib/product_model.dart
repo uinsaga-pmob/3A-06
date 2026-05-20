@@ -109,14 +109,14 @@ class CartItem {
   int get subtotal => priceInt * quantity;
 
   Product toProduct() => Product(
-        id: productId,
-        name: name,
-        price: price,
-        image: image,
-        rating: rating,
-        reviews: reviews,
-        color: color,
-      );
+    id: productId,
+    name: name,
+    price: price,
+    image: image,
+    rating: rating,
+    reviews: reviews,
+    color: color,
+  );
 }
 
 // ===================== PROFILE MODEL =====================

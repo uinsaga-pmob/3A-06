@@ -27,10 +27,7 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     if (email == "admin@gmail.com" && password == "admin") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => HomePage()),
-      );
+      Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Email atau password salah")),
@@ -122,9 +119,15 @@ class _LoginPageState extends State<LoginPage> {
 
                       const SizedBox(height: 20),
 
-                      _buildSocialButton('Continue with Google', Icons.g_mobiledata),
+                      _buildSocialButton(
+                        'Continue with Google',
+                        Icons.g_mobiledata,
+                      ),
                       const SizedBox(height: 12),
-                      _buildSocialButton('Continue with TikTok', Icons.music_note),
+                      _buildSocialButton(
+                        'Continue with TikTok',
+                        Icons.music_note,
+                      ),
                     ],
                   ),
                 ),
