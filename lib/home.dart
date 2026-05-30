@@ -104,18 +104,27 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   'Diskon hingga 50%',
                                   style: TextStyle(
+<<<<<<< HEAD
                                     color: Colors.white70,
                                     fontSize: 14,
                                   ),
+=======
+                                      color: Colors.white70, fontSize: 14),
+>>>>>>> 4cdc423 (Update project)
                                 ),
                               ],
                             ),
                           ),
+<<<<<<< HEAD
                           Icon(
                             Icons.phone_android,
                             color: Colors.white,
                             size: 50,
                           ),
+=======
+                          Icon(Icons.phone_android,
+                              color: Colors.white, size: 50),
+>>>>>>> 4cdc423 (Update project)
                         ],
                       ),
                     ),
@@ -129,9 +138,13 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             'Semua Produk',
                             style: TextStyle(
+<<<<<<< HEAD
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
+=======
+                                fontSize: 16, fontWeight: FontWeight.bold),
+>>>>>>> 4cdc423 (Update project)
                           ),
                           Text(
                             '${products.length} produk',
@@ -151,6 +164,7 @@ class _HomePageState extends State<HomePage> {
                                 padding: EdgeInsets.all(40),
                                 child: Column(
                                   children: [
+<<<<<<< HEAD
                                     Icon(
                                       Icons.inventory_2_outlined,
                                       size: 60,
@@ -161,20 +175,36 @@ class _HomePageState extends State<HomePage> {
                                       'Belum ada produk',
                                       style: TextStyle(color: Colors.grey),
                                     ),
+=======
+                                    Icon(Icons.inventory_2_outlined,
+                                        size: 60, color: Colors.grey),
+                                    SizedBox(height: 12),
+                                    Text('Belum ada produk',
+                                        style: TextStyle(color: Colors.grey)),
+>>>>>>> 4cdc423 (Update project)
                                     SizedBox(height: 8),
                                     ElevatedButton(
                                       onPressed: () async {
                                         await Navigator.push(
                                           context,
                                           MaterialPageRoute(
+<<<<<<< HEAD
                                             builder: (_) => ManageProductPage(),
                                           ),
+=======
+                                              builder: (_) =>
+                                                  ManageProductPage()),
+>>>>>>> 4cdc423 (Update project)
                                         );
                                         _loadProducts();
                                       },
                                       style: ElevatedButton.styleFrom(
+<<<<<<< HEAD
                                         backgroundColor: Colors.orange,
                                       ),
+=======
+                                          backgroundColor: Colors.orange),
+>>>>>>> 4cdc423 (Update project)
                                       child: Text('Tambah Produk'),
                                     ),
                                   ],
@@ -186,11 +216,19 @@ class _HomePageState extends State<HomePage> {
                               physics: NeverScrollableScrollPhysics(),
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
+<<<<<<< HEAD
                                     crossAxisCount: 2,
                                     childAspectRatio: 0.68,
                                     crossAxisSpacing: 12,
                                     mainAxisSpacing: 12,
                                   ),
+=======
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.68,
+                                crossAxisSpacing: 12,
+                                mainAxisSpacing: 12,
+                              ),
+>>>>>>> 4cdc423 (Update project)
                               itemCount: products.length,
                               itemBuilder: (context, index) {
                                 return ProductCard(
@@ -200,8 +238,12 @@ class _HomePageState extends State<HomePage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) => DetailPage(
+<<<<<<< HEAD
                                           product: products[index],
                                         ),
+=======
+                                            product: products[index]),
+>>>>>>> 4cdc423 (Update project)
                                       ),
                                     );
                                   },
@@ -219,6 +261,7 @@ class _HomePageState extends State<HomePage> {
         onTap: (index) {
           setState(() => _currentIndex = index);
           if (index == 1) {
+<<<<<<< HEAD
             Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => FavoritePage()),
@@ -233,6 +276,19 @@ class _HomePageState extends State<HomePage> {
               context,
               MaterialPageRoute(builder: (_) => ProfilePage()),
             ).then((_) => setState(() => _currentIndex = 0));
+=======
+            Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => FavoritePage()))
+                .then((_) => setState(() => _currentIndex = 0));
+          } else if (index == 2) {
+            Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => CartPage()))
+                .then((_) => setState(() => _currentIndex = 0));
+          } else if (index == 3) {
+            Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => ProfilePage()))
+                .then((_) => setState(() => _currentIndex = 0));
+>>>>>>> 4cdc423 (Update project)
           }
         },
         type: BottomNavigationBarType.fixed,
@@ -294,11 +350,16 @@ class ProductCard extends StatelessWidget {
                   product.image,
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) {
+<<<<<<< HEAD
                     return Icon(
                       Icons.phone_android,
                       size: 70,
                       color: Colors.grey,
                     );
+=======
+                    return Icon(Icons.phone_android,
+                        size: 70, color: Colors.grey);
+>>>>>>> 4cdc423 (Update project)
                   },
                 ),
               ),
@@ -310,7 +371,12 @@ class ProductCard extends StatelessWidget {
                 children: [
                   Text(
                     product.name,
+<<<<<<< HEAD
                     style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+=======
+                    style:
+                        TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+>>>>>>> 4cdc423 (Update project)
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -321,7 +387,12 @@ class ProductCard extends StatelessWidget {
                       SizedBox(width: 2),
                       Text(
                         '${product.rating} (${product.reviews})',
+<<<<<<< HEAD
                         style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+=======
+                        style:
+                            TextStyle(fontSize: 11, color: Colors.grey[600]),
+>>>>>>> 4cdc423 (Update project)
                       ),
                     ],
                   ),
@@ -337,14 +408,24 @@ class ProductCard extends StatelessWidget {
                   SizedBox(height: 4),
                   // Badge Warna
                   Container(
+<<<<<<< HEAD
                     padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+=======
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+>>>>>>> 4cdc423 (Update project)
                     decoration: BoxDecoration(
                       color: Colors.orange.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
                       product.color,
+<<<<<<< HEAD
                       style: TextStyle(fontSize: 10, color: Colors.orange[700]),
+=======
+                      style:
+                          TextStyle(fontSize: 10, color: Colors.orange[700]),
+>>>>>>> 4cdc423 (Update project)
                     ),
                   ),
                 ],
@@ -395,6 +476,7 @@ class _DetailPageState extends State<DetailPage> {
       await _db.addFavorite(widget.product);
     }
     setState(() => isFav = !isFav);
+<<<<<<< HEAD
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -403,17 +485,22 @@ class _DetailPageState extends State<DetailPage> {
         duration: Duration(seconds: 1),
       ),
     );
+=======
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+          isFav ? 'Ditambahkan ke Favorite' : 'Dihapus dari Favorite'),
+      duration: Duration(seconds: 1),
+    ));
+>>>>>>> 4cdc423 (Update project)
   }
 
   Future<void> _addToCart() async {
     await _db.addToCart(widget.product);
     setState(() => inCart = true);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('${widget.product.name} ditambahkan ke Keranjang'),
-        duration: Duration(seconds: 1),
-      ),
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('${widget.product.name} ditambahkan ke Keranjang'),
+      duration: Duration(seconds: 1),
+    ));
   }
 
   @override
@@ -451,11 +538,16 @@ class _DetailPageState extends State<DetailPage> {
                         widget.product.image,
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) {
+<<<<<<< HEAD
                           return Icon(
                             Icons.phone_android,
                             size: 140,
                             color: Colors.grey,
                           );
+=======
+                          return Icon(Icons.phone_android,
+                              size: 140, color: Colors.grey);
+>>>>>>> 4cdc423 (Update project)
                         },
                       ),
                     ),
@@ -465,6 +557,7 @@ class _DetailPageState extends State<DetailPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+<<<<<<< HEAD
                         Text(
                           widget.product.name,
                           style: TextStyle(
@@ -472,6 +565,11 @@ class _DetailPageState extends State<DetailPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+=======
+                        Text(widget.product.name,
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold)),
+>>>>>>> 4cdc423 (Update project)
                         SizedBox(height: 8),
                         Row(
                           children: [
@@ -482,21 +580,31 @@ class _DetailPageState extends State<DetailPage> {
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(width: 8),
+<<<<<<< HEAD
                             Text(
                               '(${widget.product.reviews} reviews)',
                               style: TextStyle(color: Colors.grey),
                             ),
+=======
+                            Text('(${widget.product.reviews} reviews)',
+                                style: TextStyle(color: Colors.grey)),
+>>>>>>> 4cdc423 (Update project)
                             SizedBox(width: 12),
                             // Badge warna
                             Container(
                               padding: EdgeInsets.symmetric(
+<<<<<<< HEAD
                                 horizontal: 8,
                                 vertical: 4,
                               ),
+=======
+                                  horizontal: 8, vertical: 4),
+>>>>>>> 4cdc423 (Update project)
                               decoration: BoxDecoration(
                                 color: Colors.orange.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(6),
                                 border: Border.all(
+<<<<<<< HEAD
                                   color: Colors.orange.withOpacity(0.3),
                                 ),
                               ),
@@ -515,12 +623,25 @@ class _DetailPageState extends State<DetailPage> {
                                       fontSize: 12,
                                     ),
                                   ),
+=======
+                                    color: Colors.orange.withOpacity(0.3)),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.circle,
+                                      size: 10, color: Colors.orange),
+                                  SizedBox(width: 4),
+                                  Text(widget.product.color,
+                                      style: TextStyle(
+                                          color: Colors.orange, fontSize: 12)),
+>>>>>>> 4cdc423 (Update project)
                                 ],
                               ),
                             ),
                           ],
                         ),
                         SizedBox(height: 12),
+<<<<<<< HEAD
                         Text(
                           widget.product.price,
                           style: TextStyle(
@@ -544,6 +665,22 @@ class _DetailPageState extends State<DetailPage> {
                             color: Colors.grey[700],
                             height: 1.5,
                           ),
+=======
+                        Text(widget.product.price,
+                            style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.orange)),
+                        SizedBox(height: 16),
+                        Text('Deskripsi',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                        SizedBox(height: 8),
+                        Text(
+                          'Produk smartphone terbaik dengan spesifikasi tinggi dan performa maksimal. Tersedia dalam warna ${widget.product.color}. Dilengkapi kamera berkualitas tinggi dan baterai tahan lama.',
+                          style:
+                              TextStyle(color: Colors.grey[700], height: 1.5),
+>>>>>>> 4cdc423 (Update project)
                         ),
                       ],
                     ),
@@ -558,10 +695,16 @@ class _DetailPageState extends State<DetailPage> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
+<<<<<<< HEAD
                   color: Colors.black12,
                   blurRadius: 4,
                   offset: Offset(0, -2),
                 ),
+=======
+                    color: Colors.black12,
+                    blurRadius: 4,
+                    offset: Offset(0, -2))
+>>>>>>> 4cdc423 (Update project)
               ],
             ),
             child: Row(
@@ -642,7 +785,8 @@ class _FavoritePageState extends State<FavoritePage> {
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Favorite', style: TextStyle(color: Colors.black)),
+        title:
+            Text('Favorite', style: TextStyle(color: Colors.black)),
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator(color: Colors.orange))
@@ -657,6 +801,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     'Belum ada produk favorit',
                     style: TextStyle(color: Colors.grey, fontSize: 16),
                   ),
+<<<<<<< HEAD
                 ],
               ),
             )
@@ -691,6 +836,42 @@ class _FavoritePageState extends State<FavoritePage> {
                         Text(
                           'Warna: ${product.color}',
                           style: TextStyle(fontSize: 11, color: Colors.grey),
+=======
+                )
+              : ListView.builder(
+                  padding: EdgeInsets.all(16),
+                  itemCount: favorites.length,
+                  itemBuilder: (context, index) {
+                    final product = favorites[index];
+                    return Card(
+                      margin: EdgeInsets.only(bottom: 12),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      child: ListTile(
+                        leading: Image.asset(
+                          product.image,
+                          width: 60,
+                          errorBuilder: (c, e, s) =>
+                              Icon(Icons.phone_android, size: 40),
+                        ),
+                        title: Text(product.name,
+                            style:
+                                TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(product.price,
+                                style: TextStyle(color: Colors.orange)),
+                            Text('Warna: ${product.color}',
+                                style: TextStyle(
+                                    fontSize: 11, color: Colors.grey)),
+                          ],
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete, color: Colors.red),
+                          onPressed: () =>
+                              _removeFavorite(product.id!, index),
+>>>>>>> 4cdc423 (Update project)
                         ),
                       ],
                     ),
@@ -779,6 +960,7 @@ class _CartPageState extends State<CartPage> {
                     size: 80,
                     color: Colors.grey,
                   ),
+<<<<<<< HEAD
                   SizedBox(height: 16),
                   Text(
                     'Keranjang masih kosong',
@@ -906,6 +1088,145 @@ class _CartPageState extends State<CartPage> {
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.orange,
+=======
+                )
+              : Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        padding: EdgeInsets.all(16),
+                        itemCount: cartItems.length,
+                        itemBuilder: (context, index) {
+                          final item = cartItems[index];
+                          return Card(
+                            margin: EdgeInsets.only(bottom: 12),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Padding(
+                              padding: EdgeInsets.all(12),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    item.image,
+                                    width: 65,
+                                    height: 65,
+                                    errorBuilder: (c, e, s) => Icon(
+                                        Icons.phone_android,
+                                        size: 50),
+                                  ),
+                                  SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(item.name,
+                                            style: TextStyle(
+                                                fontWeight:
+                                                    FontWeight.bold,
+                                                fontSize: 13)),
+                                        SizedBox(height: 2),
+                                        Text(item.price,
+                                            style: TextStyle(
+                                                color: Colors.orange,
+                                                fontSize: 13)),
+                                        Text('Warna: ${item.color}',
+                                            style: TextStyle(
+                                                fontSize: 11,
+                                                color: Colors.grey)),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(
+                                            Icons.remove_circle_outline,
+                                            size: 22),
+                                        onPressed: () =>
+                                            _updateQuantity(
+                                                item.productId,
+                                                item.quantity - 1,
+                                                index),
+                                      ),
+                                      Text('${item.quantity}',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16)),
+                                      IconButton(
+                                        icon: Icon(
+                                            Icons.add_circle_outline,
+                                            color: Colors.orange,
+                                            size: 22),
+                                        onPressed: () =>
+                                            _updateQuantity(
+                                                item.productId,
+                                                item.quantity + 1,
+                                                index),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4,
+                              offset: Offset(0, -2))
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Total:',
+                                  style: TextStyle(fontSize: 18)),
+                              Text(_totalFormatted,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.orange)),
+                            ],
+                          ),
+                          SizedBox(height: 12),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => CheckoutPage(
+                                      cartItems: cartItems,
+                                      total: _totalFormatted,
+                                    ),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                                padding:
+                                    EdgeInsets.symmetric(vertical: 16),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(8)),
+                              ),
+                              child: Text('Checkout',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
+>>>>>>> 4cdc423 (Update project)
                             ),
                           ),
                         ],
@@ -1006,8 +1327,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
               SizedBox(height: 12),
               Card(
                 shape: RoundedRectangleBorder(
+<<<<<<< HEAD
                   borderRadius: BorderRadius.circular(12),
                 ),
+=======
+                    borderRadius: BorderRadius.circular(12)),
+>>>>>>> 4cdc423 (Update project)
                 child: Padding(
                   padding: EdgeInsets.all(12),
                   child: Column(
@@ -1032,10 +1357,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
               SizedBox(height: 12),
               Card(
                 shape: RoundedRectangleBorder(
+<<<<<<< HEAD
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
                   children: [
+=======
+                    borderRadius: BorderRadius.circular(12)),
+                child: Column(
+                  children: [
+                    _buildPaymentOption(
+                        1, Icons.account_balance, 'DANA', Colors.blue),
+>>>>>>> 4cdc423 (Update project)
                     _buildPaymentOption(
                       1,
                       Icons.account_balance,
@@ -1067,8 +1400,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
               Card(
                 color: Colors.orange,
                 shape: RoundedRectangleBorder(
+<<<<<<< HEAD
                   borderRadius: BorderRadius.circular(12),
                 ),
+=======
+                    borderRadius: BorderRadius.circular(12)),
+>>>>>>> 4cdc423 (Update project)
                 child: Padding(
                   padding: EdgeInsets.all(16),
                   child: Column(
@@ -1131,7 +1468,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     await _db.clearCart();
                     Navigator.push(
                       context,
+<<<<<<< HEAD
                       MaterialPageRoute(builder: (_) => PaymentSuccessPage()),
+=======
+                      MaterialPageRoute(
+                          builder: (_) => PaymentSuccessPage()),
+>>>>>>> 4cdc423 (Update project)
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -1188,17 +1530,22 @@ class PaymentSuccessPage extends StatelessWidget {
             children: [
               Icon(Icons.check_circle, color: Colors.orange, size: 100),
               SizedBox(height: 24),
+<<<<<<< HEAD
               Text(
                 'Hooray! Payment Successful!',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
+=======
+              Text('Hooray! Payment Successful!',
+                  style: TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center),
+>>>>>>> 4cdc423 (Update project)
               SizedBox(height: 12),
-              Text(
-                'Your payment has been successfully done.',
-                style: TextStyle(color: Colors.grey),
-                textAlign: TextAlign.center,
-              ),
+              Text('Your payment has been successfully done.',
+                  style: TextStyle(color: Colors.grey),
+                  textAlign: TextAlign.center),
               SizedBox(height: 40),
               SizedBox(
                 width: double.infinity,
@@ -1274,7 +1621,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Row(
                         children: [
                           IconButton(
+<<<<<<< HEAD
                             icon: Icon(Icons.arrow_back, color: Colors.white),
+=======
+                            icon:
+                                Icon(Icons.arrow_back, color: Colors.white),
+>>>>>>> 4cdc423 (Update project)
                             onPressed: () => Navigator.pop(context),
                           ),
                           Spacer(),
@@ -1297,6 +1649,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.white,
+<<<<<<< HEAD
                       child: Icon(Icons.person, size: 60, color: Colors.orange),
                     ),
                     SizedBox(height: 16),
@@ -1313,6 +1666,21 @@ class _ProfilePageState extends State<ProfilePage> {
                       profile?.email ?? '-',
                       style: TextStyle(color: Colors.white70, fontSize: 14),
                     ),
+=======
+                      child: Icon(Icons.person,
+                          size: 60, color: Colors.orange),
+                    ),
+                    SizedBox(height: 16),
+                    Text(profile?.name ?? '-',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold)),
+                    SizedBox(height: 4),
+                    Text(profile?.email ?? '-',
+                        style:
+                            TextStyle(color: Colors.white70, fontSize: 14)),
+>>>>>>> 4cdc423 (Update project)
                     SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

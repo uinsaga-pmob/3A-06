@@ -75,7 +75,13 @@ class _ManageProductPageState extends State<ManageProductPage> {
   void _openForm({Product? product}) async {
     final result = await Navigator.push(
       context,
+<<<<<<< HEAD
       MaterialPageRoute(builder: (_) => ProductFormPage(product: product)),
+=======
+      MaterialPageRoute(
+        builder: (_) => ProductFormPage(product: product),
+      ),
+>>>>>>> 4cdc423 (Update project)
     );
     if (result == true) {
       await _loadProducts();
@@ -115,6 +121,7 @@ class _ManageProductPageState extends State<ManageProductPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+<<<<<<< HEAD
                       Icon(
                         Icons.inventory_2_outlined,
                         size: 80,
@@ -125,14 +132,25 @@ class _ManageProductPageState extends State<ManageProductPage> {
                         'Belum ada produk',
                         style: TextStyle(color: Colors.grey, fontSize: 16),
                       ),
+=======
+                      Icon(Icons.inventory_2_outlined,
+                          size: 80, color: Colors.grey),
+                      SizedBox(height: 16),
+                      Text('Belum ada produk',
+                          style: TextStyle(color: Colors.grey, fontSize: 16)),
+>>>>>>> 4cdc423 (Update project)
                       SizedBox(height: 12),
                       ElevatedButton.icon(
                         onPressed: () => _openForm(),
                         icon: Icon(Icons.add),
                         label: Text('Tambah Produk'),
                         style: ElevatedButton.styleFrom(
+<<<<<<< HEAD
                           backgroundColor: Colors.orange,
                         ),
+=======
+                            backgroundColor: Colors.orange),
+>>>>>>> 4cdc423 (Update project)
                       ),
                     ],
                   ),
@@ -145,8 +163,12 @@ class _ManageProductPageState extends State<ManageProductPage> {
                     return Card(
                       margin: EdgeInsets.only(bottom: 12),
                       shape: RoundedRectangleBorder(
+<<<<<<< HEAD
                         borderRadius: BorderRadius.circular(12),
                       ),
+=======
+                          borderRadius: BorderRadius.circular(12)),
+>>>>>>> 4cdc423 (Update project)
                       child: Padding(
                         padding: EdgeInsets.all(12),
                         child: Row(
@@ -163,11 +185,16 @@ class _ManageProductPageState extends State<ManageProductPage> {
                                   width: 70,
                                   height: 70,
                                   color: Colors.grey[200],
+<<<<<<< HEAD
                                   child: Icon(
                                     Icons.phone_android,
                                     size: 40,
                                     color: Colors.grey,
                                   ),
+=======
+                                  child: Icon(Icons.phone_android,
+                                      size: 40, color: Colors.grey),
+>>>>>>> 4cdc423 (Update project)
                                 ),
                               ),
                             ),
@@ -180,9 +207,14 @@ class _ManageProductPageState extends State<ManageProductPage> {
                                   Text(
                                     p.name,
                                     style: TextStyle(
+<<<<<<< HEAD
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
                                     ),
+=======
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+>>>>>>> 4cdc423 (Update project)
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -190,13 +222,19 @@ class _ManageProductPageState extends State<ManageProductPage> {
                                   Text(
                                     p.price,
                                     style: TextStyle(
+<<<<<<< HEAD
                                       color: Colors.orange,
                                       fontWeight: FontWeight.bold,
                                     ),
+=======
+                                        color: Colors.orange,
+                                        fontWeight: FontWeight.bold),
+>>>>>>> 4cdc423 (Update project)
                                   ),
                                   SizedBox(height: 4),
                                   Row(
                                     children: [
+<<<<<<< HEAD
                                       Icon(
                                         Icons.star,
                                         color: Colors.amber,
@@ -216,6 +254,19 @@ class _ManageProductPageState extends State<ManageProductPage> {
                                           horizontal: 6,
                                           vertical: 2,
                                         ),
+=======
+                                      Icon(Icons.star,
+                                          color: Colors.amber, size: 14),
+                                      SizedBox(width: 2),
+                                      Text('${p.rating}',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey[600])),
+                                      SizedBox(width: 8),
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 6, vertical: 2),
+>>>>>>> 4cdc423 (Update project)
                                         decoration: BoxDecoration(
                                           color: Colors.orange.withOpacity(0.1),
                                           borderRadius:
@@ -224,9 +275,14 @@ class _ManageProductPageState extends State<ManageProductPage> {
                                         child: Text(
                                           p.color,
                                           style: TextStyle(
+<<<<<<< HEAD
                                             fontSize: 11,
                                             color: Colors.orange,
                                           ),
+=======
+                                              fontSize: 11,
+                                              color: Colors.orange),
+>>>>>>> 4cdc423 (Update project)
                                         ),
                                       ),
                                     ],
@@ -238,20 +294,30 @@ class _ManageProductPageState extends State<ManageProductPage> {
                             Column(
                               children: [
                                 IconButton(
+<<<<<<< HEAD
                                   icon: Icon(
                                     Icons.edit,
                                     color: Colors.blue,
                                     size: 22,
                                   ),
+=======
+                                  icon: Icon(Icons.edit,
+                                      color: Colors.blue, size: 22),
+>>>>>>> 4cdc423 (Update project)
                                   onPressed: () => _openForm(product: p),
                                   tooltip: 'Edit',
                                 ),
                                 IconButton(
+<<<<<<< HEAD
                                   icon: Icon(
                                     Icons.delete,
                                     color: Colors.red,
                                     size: 22,
                                   ),
+=======
+                                  icon: Icon(Icons.delete,
+                                      color: Colors.red, size: 22),
+>>>>>>> 4cdc423 (Update project)
                                   onPressed: () => _deleteProduct(p),
                                   tooltip: 'Hapus',
                                 ),
@@ -299,6 +365,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
   bool _isSaving = false;
 
   final List<String> _colorOptions = [
+<<<<<<< HEAD
     'Hitam',
     'Putih',
     'Silver',
@@ -310,6 +377,10 @@ class _ProductFormPageState extends State<ProductFormPage> {
     'Coral',
     'Midnight',
     'Starlight',
+=======
+    'Hitam', 'Putih', 'Silver', 'Gold', 'Biru', 'Merah',
+    'Hijau', 'Purple', 'Coral', 'Midnight', 'Starlight',
+>>>>>>> 4cdc423 (Update project)
   ];
 
   bool get _isEdit => widget.product != null;
@@ -320,7 +391,13 @@ class _ProductFormPageState extends State<ProductFormPage> {
     final p = widget.product;
     _nameCtrl = TextEditingController(text: p?.name ?? '');
     _priceCtrl = TextEditingController(
+<<<<<<< HEAD
       text: p != null ? p.price.replaceAll(RegExp(r'[^0-9]'), '') : '',
+=======
+      text: p != null
+          ? p.price.replaceAll(RegExp(r'[^0-9]'), '')
+          : '',
+>>>>>>> 4cdc423 (Update project)
     );
     _imageCtrl = TextEditingController(text: p?.image ?? '');
     _reviewsCtrl = TextEditingController(text: '${p?.reviews ?? 120}');
@@ -341,8 +418,12 @@ class _ProductFormPageState extends State<ProductFormPage> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isSaving = true);
 
+<<<<<<< HEAD
     final priceInt =
         int.tryParse(_priceCtrl.text.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0;
+=======
+    final priceInt = int.tryParse(_priceCtrl.text.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0;
+>>>>>>> 4cdc423 (Update project)
     final priceFormatted = _formatRupiah(priceInt);
 
     final product = Product(
@@ -419,11 +500,16 @@ class _ProductFormPageState extends State<ProductFormPage> {
                           ? 'assets/images/12pro.png'
                           : _imageCtrl.text,
                       fit: BoxFit.contain,
+<<<<<<< HEAD
                       errorBuilder: (c, e, s) => Icon(
                         Icons.phone_android,
                         size: 60,
                         color: Colors.grey,
                       ),
+=======
+                      errorBuilder: (c, e, s) => Icon(Icons.phone_android,
+                          size: 60, color: Colors.grey),
+>>>>>>> 4cdc423 (Update project)
                     ),
                   ),
                 ),
@@ -435,9 +521,14 @@ class _ProductFormPageState extends State<ProductFormPage> {
               TextFormField(
                 controller: _nameCtrl,
                 decoration: _inputDeco('Contoh: iPhone 14 Pro'),
+<<<<<<< HEAD
                 validator: (v) => v == null || v.trim().isEmpty
                     ? 'Nama produk wajib diisi'
                     : null,
+=======
+                validator: (v) =>
+                    v == null || v.trim().isEmpty ? 'Nama produk wajib diisi' : null,
+>>>>>>> 4cdc423 (Update project)
               ),
               SizedBox(height: 16),
 
@@ -449,8 +540,12 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 decoration: _inputDeco('Contoh: 9000000'),
                 validator: (v) {
                   if (v == null || v.trim().isEmpty) return 'Harga wajib diisi';
+<<<<<<< HEAD
                   if (int.tryParse(v.replaceAll(RegExp(r'[^0-9]'), '')) ==
                       null) {
+=======
+                  if (int.tryParse(v.replaceAll(RegExp(r'[^0-9]'), '')) == null) {
+>>>>>>> 4cdc423 (Update project)
                     return 'Masukkan angka yang valid';
                   }
                   return null;
@@ -479,10 +574,14 @@ class _ProductFormPageState extends State<ProductFormPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+<<<<<<< HEAD
                   Text(
                     '1.0',
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
+=======
+                  Text('1.0', style: TextStyle(color: Colors.grey, fontSize: 12)),
+>>>>>>> 4cdc423 (Update project)
                   Row(
                     children: List.generate(5, (i) {
                       return Icon(
@@ -492,10 +591,14 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       );
                     }),
                   ),
+<<<<<<< HEAD
                   Text(
                     '5.0',
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
+=======
+                  Text('5.0', style: TextStyle(color: Colors.grey, fontSize: 12)),
+>>>>>>> 4cdc423 (Update project)
                 ],
               ),
               SizedBox(height: 16),
@@ -506,9 +609,14 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 controller: _reviewsCtrl,
                 keyboardType: TextInputType.number,
                 decoration: _inputDeco('Contoh: 120'),
+<<<<<<< HEAD
                 validator: (v) => v == null || v.trim().isEmpty
                     ? 'Jumlah review wajib diisi'
                     : null,
+=======
+                validator: (v) =>
+                    v == null || v.trim().isEmpty ? 'Jumlah review wajib diisi' : null,
+>>>>>>> 4cdc423 (Update project)
               ),
               SizedBox(height: 16),
 
@@ -576,24 +684,36 @@ class _ProductFormPageState extends State<ProductFormPage> {
                     backgroundColor: Colors.orange,
                     padding: EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
+<<<<<<< HEAD
                       borderRadius: BorderRadius.circular(12),
                     ),
+=======
+                        borderRadius: BorderRadius.circular(12)),
+>>>>>>> 4cdc423 (Update project)
                   ),
                   child: _isSaving
                       ? SizedBox(
                           height: 20,
                           width: 20,
                           child: CircularProgressIndicator(
+<<<<<<< HEAD
                             color: Colors.white,
                             strokeWidth: 2,
                           ),
+=======
+                              color: Colors.white, strokeWidth: 2),
+>>>>>>> 4cdc423 (Update project)
                         )
                       : Text(
                           _isEdit ? 'Simpan Perubahan' : 'Tambah Produk',
                           style: TextStyle(
+<<<<<<< HEAD
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
+=======
+                              fontSize: 16, fontWeight: FontWeight.bold),
+>>>>>>> 4cdc423 (Update project)
                         ),
                 ),
               ),
@@ -608,6 +728,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                     padding: EdgeInsets.symmetric(vertical: 16),
                     side: BorderSide(color: Colors.grey),
                     shape: RoundedRectangleBorder(
+<<<<<<< HEAD
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
@@ -615,6 +736,12 @@ class _ProductFormPageState extends State<ProductFormPage> {
                     'Batal',
                     style: TextStyle(fontSize: 16, color: Colors.grey),
                   ),
+=======
+                        borderRadius: BorderRadius.circular(12)),
+                  ),
+                  child: Text('Batal',
+                      style: TextStyle(fontSize: 16, color: Colors.grey)),
+>>>>>>> 4cdc423 (Update project)
                 ),
               ),
               SizedBox(height: 24),
@@ -662,6 +789,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
   Color _getColorSwatch(String colorName) {
     switch (colorName.toLowerCase()) {
+<<<<<<< HEAD
       case 'hitam':
         return Colors.black87;
       case 'putih':
@@ -689,3 +817,20 @@ class _ProductFormPageState extends State<ProductFormPage> {
     }
   }
 }
+=======
+      case 'hitam': return Colors.black87;
+      case 'putih': return Colors.grey.shade200;
+      case 'silver': return Colors.blueGrey.shade300;
+      case 'gold': return Colors.amber.shade600;
+      case 'biru': return Colors.blue;
+      case 'merah': return Colors.red;
+      case 'hijau': return Colors.green;
+      case 'purple': return Colors.purple;
+      case 'coral': return Colors.deepOrange.shade300;
+      case 'midnight': return Colors.indigo.shade900;
+      case 'starlight': return Colors.amber.shade100;
+      default: return Colors.grey;
+    }
+  }
+}
+>>>>>>> 4cdc423 (Update project)
