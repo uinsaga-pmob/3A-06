@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'database_helper.dart';
 import 'product_model.dart';
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         title: Text(
           'Rifky Surya Pratama',
-          style: TextStyle(color: Colors.black, fontSize: 16),
+          style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
         ),
         actions: [
           // Tombol Kelola Produk
@@ -57,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                 context,
                 MaterialPageRoute(builder: (_) => ManageProductPage()),
               );
-              _loadProducts(); // refresh setelah kembali
+              _loadProducts(); // refresh setelah kembali dari kelola produk
             },
           ),
           IconButton(
@@ -104,27 +105,18 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   'Diskon hingga 50%',
                                   style: TextStyle(
-<<<<<<< HEAD
                                     color: Colors.white70,
                                     fontSize: 14,
                                   ),
-=======
-                                      color: Colors.white70, fontSize: 14),
->>>>>>> 4cdc423 (Update project)
                                 ),
                               ],
                             ),
                           ),
-<<<<<<< HEAD
                           Icon(
                             Icons.phone_android,
                             color: Colors.white,
                             size: 50,
                           ),
-=======
-                          Icon(Icons.phone_android,
-                              color: Colors.white, size: 50),
->>>>>>> 4cdc423 (Update project)
                         ],
                       ),
                     ),
@@ -138,13 +130,9 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             'Semua Produk',
                             style: TextStyle(
-<<<<<<< HEAD
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
-=======
-                                fontSize: 16, fontWeight: FontWeight.bold),
->>>>>>> 4cdc423 (Update project)
                           ),
                           Text(
                             '${products.length} produk',
@@ -164,7 +152,6 @@ class _HomePageState extends State<HomePage> {
                                 padding: EdgeInsets.all(40),
                                 child: Column(
                                   children: [
-<<<<<<< HEAD
                                     Icon(
                                       Icons.inventory_2_outlined,
                                       size: 60,
@@ -175,36 +162,20 @@ class _HomePageState extends State<HomePage> {
                                       'Belum ada produk',
                                       style: TextStyle(color: Colors.grey),
                                     ),
-=======
-                                    Icon(Icons.inventory_2_outlined,
-                                        size: 60, color: Colors.grey),
-                                    SizedBox(height: 12),
-                                    Text('Belum ada produk',
-                                        style: TextStyle(color: Colors.grey)),
->>>>>>> 4cdc423 (Update project)
                                     SizedBox(height: 8),
                                     ElevatedButton(
                                       onPressed: () async {
                                         await Navigator.push(
                                           context,
                                           MaterialPageRoute(
-<<<<<<< HEAD
                                             builder: (_) => ManageProductPage(),
                                           ),
-=======
-                                              builder: (_) =>
-                                                  ManageProductPage()),
->>>>>>> 4cdc423 (Update project)
                                         );
                                         _loadProducts();
                                       },
                                       style: ElevatedButton.styleFrom(
-<<<<<<< HEAD
                                         backgroundColor: Colors.orange,
                                       ),
-=======
-                                          backgroundColor: Colors.orange),
->>>>>>> 4cdc423 (Update project)
                                       child: Text('Tambah Produk'),
                                     ),
                                   ],
@@ -214,21 +185,12 @@ class _HomePageState extends State<HomePage> {
                           : GridView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-<<<<<<< HEAD
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 0.68,
-                                    crossAxisSpacing: 12,
-                                    mainAxisSpacing: 12,
-                                  ),
-=======
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 childAspectRatio: 0.68,
                                 crossAxisSpacing: 12,
                                 mainAxisSpacing: 12,
                               ),
->>>>>>> 4cdc423 (Update project)
                               itemCount: products.length,
                               itemBuilder: (context, index) {
                                 return ProductCard(
@@ -238,14 +200,11 @@ class _HomePageState extends State<HomePage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) => DetailPage(
-<<<<<<< HEAD
                                           product: products[index],
                                         ),
-=======
-                                            product: products[index]),
->>>>>>> 4cdc423 (Update project)
                                       ),
                                     );
+                                    _loadProducts(); // Sync status jika ada perubahan dari detail
                                   },
                                 );
                               },
@@ -261,34 +220,29 @@ class _HomePageState extends State<HomePage> {
         onTap: (index) {
           setState(() => _currentIndex = index);
           if (index == 1) {
-<<<<<<< HEAD
             Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => FavoritePage()),
-            ).then((_) => setState(() => _currentIndex = 0));
+            ).then((_) {
+              setState(() => _currentIndex = 0);
+              _loadProducts();
+            });
           } else if (index == 2) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => CartPage()),
-            ).then((_) => setState(() => _currentIndex = 0));
+            ).then((_) {
+              setState(() => _currentIndex = 0);
+              _loadProducts();
+            });
           } else if (index == 3) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => ProfilePage()),
-            ).then((_) => setState(() => _currentIndex = 0));
-=======
-            Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => FavoritePage()))
-                .then((_) => setState(() => _currentIndex = 0));
-          } else if (index == 2) {
-            Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => CartPage()))
-                .then((_) => setState(() => _currentIndex = 0));
-          } else if (index == 3) {
-            Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => ProfilePage()))
-                .then((_) => setState(() => _currentIndex = 0));
->>>>>>> 4cdc423 (Update project)
+            ).then((_) {
+              setState(() => _currentIndex = 0);
+              _loadProducts();
+            });
           }
         },
         type: BottomNavigationBarType.fixed,
@@ -315,7 +269,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 // ================================================================
-// PRODUCT CARD WIDGET — tampilkan warna
+// PRODUCT CARD WIDGET
 // ================================================================
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -325,6 +279,22 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Penanganan adaptif gambar (Aset lokal vs File Upload HP)
+    Widget productSelectionImage;
+    if (product.image.startsWith('assets/')) {
+      productSelectionImage = Image.asset(
+        product.image,
+        fit: BoxFit.contain,
+        errorBuilder: (c, e, s) => Icon(Icons.phone_android, size: 70, color: Colors.grey),
+      );
+    } else {
+      productSelectionImage = Image.file(
+        File(product.image),
+        fit: BoxFit.contain,
+        errorBuilder: (c, e, s) => Icon(Icons.phone_android, size: 70, color: Colors.grey),
+      );
+    }
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -346,22 +316,7 @@ class ProductCard extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 padding: EdgeInsets.all(8),
-                child: Image.asset(
-                  product.image,
-                  fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) {
-<<<<<<< HEAD
-                    return Icon(
-                      Icons.phone_android,
-                      size: 70,
-                      color: Colors.grey,
-                    );
-=======
-                    return Icon(Icons.phone_android,
-                        size: 70, color: Colors.grey);
->>>>>>> 4cdc423 (Update project)
-                  },
-                ),
+                child: productSelectionImage,
               ),
             ),
             Padding(
@@ -371,12 +326,7 @@ class ProductCard extends StatelessWidget {
                 children: [
                   Text(
                     product.name,
-<<<<<<< HEAD
                     style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-=======
-                    style:
-                        TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
->>>>>>> 4cdc423 (Update project)
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -387,12 +337,7 @@ class ProductCard extends StatelessWidget {
                       SizedBox(width: 2),
                       Text(
                         '${product.rating} (${product.reviews})',
-<<<<<<< HEAD
                         style: TextStyle(fontSize: 11, color: Colors.grey[600]),
-=======
-                        style:
-                            TextStyle(fontSize: 11, color: Colors.grey[600]),
->>>>>>> 4cdc423 (Update project)
                       ),
                     ],
                   ),
@@ -408,24 +353,14 @@ class ProductCard extends StatelessWidget {
                   SizedBox(height: 4),
                   // Badge Warna
                   Container(
-<<<<<<< HEAD
                     padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-=======
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 6, vertical: 2),
->>>>>>> 4cdc423 (Update project)
                     decoration: BoxDecoration(
                       color: Colors.orange.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
                       product.color,
-<<<<<<< HEAD
                       style: TextStyle(fontSize: 10, color: Colors.orange[700]),
-=======
-                      style:
-                          TextStyle(fontSize: 10, color: Colors.orange[700]),
->>>>>>> 4cdc423 (Update project)
                     ),
                   ),
                 ],
@@ -476,7 +411,6 @@ class _DetailPageState extends State<DetailPage> {
       await _db.addFavorite(widget.product);
     }
     setState(() => isFav = !isFav);
-<<<<<<< HEAD
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -485,13 +419,6 @@ class _DetailPageState extends State<DetailPage> {
         duration: Duration(seconds: 1),
       ),
     );
-=======
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-          isFav ? 'Ditambahkan ke Favorite' : 'Dihapus dari Favorite'),
-      duration: Duration(seconds: 1),
-    ));
->>>>>>> 4cdc423 (Update project)
   }
 
   Future<void> _addToCart() async {
@@ -505,6 +432,22 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Penanganan adaptif gambar untuk Detail
+    Widget detailedImage;
+    if (widget.product.image.startsWith('assets/')) {
+      detailedImage = Image.asset(
+        widget.product.image,
+        fit: BoxFit.contain,
+        errorBuilder: (c, e, s) => Icon(Icons.phone_android, size: 140, color: Colors.grey),
+      );
+    } else {
+      detailedImage = Image.file(
+        File(widget.product.image),
+        fit: BoxFit.contain,
+        errorBuilder: (c, e, s) => Icon(Icons.phone_android, size: 140, color: Colors.grey),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -534,22 +477,7 @@ class _DetailPageState extends State<DetailPage> {
                     height: 280,
                     color: Colors.white,
                     child: Center(
-                      child: Image.asset(
-                        widget.product.image,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) {
-<<<<<<< HEAD
-                          return Icon(
-                            Icons.phone_android,
-                            size: 140,
-                            color: Colors.grey,
-                          );
-=======
-                          return Icon(Icons.phone_android,
-                              size: 140, color: Colors.grey);
->>>>>>> 4cdc423 (Update project)
-                        },
-                      ),
+                      child: detailedImage,
                     ),
                   ),
                   Padding(
@@ -557,7 +485,6 @@ class _DetailPageState extends State<DetailPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-<<<<<<< HEAD
                         Text(
                           widget.product.name,
                           style: TextStyle(
@@ -565,11 +492,6 @@ class _DetailPageState extends State<DetailPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-=======
-                        Text(widget.product.name,
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold)),
->>>>>>> 4cdc423 (Update project)
                         SizedBox(height: 8),
                         Row(
                           children: [
@@ -580,41 +502,24 @@ class _DetailPageState extends State<DetailPage> {
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(width: 8),
-<<<<<<< HEAD
                             Text(
                               '(${widget.product.reviews} reviews)',
                               style: TextStyle(color: Colors.grey),
                             ),
-=======
-                            Text('(${widget.product.reviews} reviews)',
-                                style: TextStyle(color: Colors.grey)),
->>>>>>> 4cdc423 (Update project)
                             SizedBox(width: 12),
-                            // Badge warna
                             Container(
                               padding: EdgeInsets.symmetric(
-<<<<<<< HEAD
                                 horizontal: 8,
                                 vertical: 4,
                               ),
-=======
-                                  horizontal: 8, vertical: 4),
->>>>>>> 4cdc423 (Update project)
                               decoration: BoxDecoration(
                                 color: Colors.orange.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(6),
-                                border: Border.all(
-<<<<<<< HEAD
-                                  color: Colors.orange.withOpacity(0.3),
-                                ),
+                                border: Border.all(color: Colors.orange.withOpacity(0.3)),
                               ),
                               child: Row(
                                 children: [
-                                  Icon(
-                                    Icons.circle,
-                                    size: 10,
-                                    color: Colors.orange,
-                                  ),
+                                  Icon(Icons.circle, size: 10, color: Colors.orange),
                                   SizedBox(width: 4),
                                   Text(
                                     widget.product.color,
@@ -623,25 +528,12 @@ class _DetailPageState extends State<DetailPage> {
                                       fontSize: 12,
                                     ),
                                   ),
-=======
-                                    color: Colors.orange.withOpacity(0.3)),
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.circle,
-                                      size: 10, color: Colors.orange),
-                                  SizedBox(width: 4),
-                                  Text(widget.product.color,
-                                      style: TextStyle(
-                                          color: Colors.orange, fontSize: 12)),
->>>>>>> 4cdc423 (Update project)
                                 ],
                               ),
                             ),
                           ],
                         ),
                         SizedBox(height: 12),
-<<<<<<< HEAD
                         Text(
                           widget.product.price,
                           style: TextStyle(
@@ -665,22 +557,6 @@ class _DetailPageState extends State<DetailPage> {
                             color: Colors.grey[700],
                             height: 1.5,
                           ),
-=======
-                        Text(widget.product.price,
-                            style: TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.orange)),
-                        SizedBox(height: 16),
-                        Text('Deskripsi',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 8),
-                        Text(
-                          'Produk smartphone terbaik dengan spesifikasi tinggi dan performa maksimal. Tersedia dalam warna ${widget.product.color}. Dilengkapi kamera berkualitas tinggi dan baterai tahan lama.',
-                          style:
-                              TextStyle(color: Colors.grey[700], height: 1.5),
->>>>>>> 4cdc423 (Update project)
                         ),
                       ],
                     ),
@@ -695,16 +571,10 @@ class _DetailPageState extends State<DetailPage> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-<<<<<<< HEAD
                   color: Colors.black12,
                   blurRadius: 4,
                   offset: Offset(0, -2),
-                ),
-=======
-                    color: Colors.black12,
-                    blurRadius: 4,
-                    offset: Offset(0, -2))
->>>>>>> 4cdc423 (Update project)
+                )
               ],
             ),
             child: Row(
@@ -785,104 +655,63 @@ class _FavoritePageState extends State<FavoritePage> {
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title:
-            Text('Favorite', style: TextStyle(color: Colors.black)),
+        title: Text('Favorite', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator(color: Colors.orange))
           : favorites.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.favorite_border, size: 80, color: Colors.grey),
-                  SizedBox(height: 16),
-                  Text(
-                    'Belum ada produk favorit',
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.favorite_border, size: 80, color: Colors.grey),
+                      SizedBox(height: 16),
+                      Text(
+                        'Belum ada produk favorit',
+                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                      ),
+                    ],
                   ),
-<<<<<<< HEAD
-                ],
-              ),
-            )
-          : ListView.builder(
-              padding: EdgeInsets.all(16),
-              itemCount: favorites.length,
-              itemBuilder: (context, index) {
-                final product = favorites[index];
-                return Card(
-                  margin: EdgeInsets.only(bottom: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ListTile(
-                    leading: Image.asset(
-                      product.image,
-                      width: 60,
-                      errorBuilder: (c, e, s) =>
-                          Icon(Icons.phone_android, size: 40),
-                    ),
-                    title: Text(
-                      product.name,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          product.price,
-                          style: TextStyle(color: Colors.orange),
-                        ),
-                        Text(
-                          'Warna: ${product.color}',
-                          style: TextStyle(fontSize: 11, color: Colors.grey),
-=======
                 )
               : ListView.builder(
                   padding: EdgeInsets.all(16),
                   itemCount: favorites.length,
                   itemBuilder: (context, index) {
                     final product = favorites[index];
+
+                    Widget favImage;
+                    if (product.image.startsWith('assets/')) {
+                      favImage = Image.asset(product.image, width: 60, height: 60, fit: BoxFit.contain);
+                    } else {
+                      favImage = Image.file(File(product.image), width: 60, height: 60, fit: BoxFit.contain);
+                    }
+
                     return Card(
                       margin: EdgeInsets.only(bottom: 12),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       child: ListTile(
-                        leading: Image.asset(
-                          product.image,
+                        leading: Container(
                           width: 60,
-                          errorBuilder: (c, e, s) =>
-                              Icon(Icons.phone_android, size: 40),
+                          height: 60,
+                          alignment: Alignment.center,
+                          child: favImage,
                         ),
-                        title: Text(product.name,
-                            style:
-                                TextStyle(fontWeight: FontWeight.bold)),
+                        title: Text(product.name, style: TextStyle(fontWeight: FontWeight.bold)),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(product.price,
-                                style: TextStyle(color: Colors.orange)),
-                            Text('Warna: ${product.color}',
-                                style: TextStyle(
-                                    fontSize: 11, color: Colors.grey)),
+                            Text(product.price, style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold)),
+                            Text('Warna: ${product.color}', style: TextStyle(fontSize: 11, color: Colors.grey)),
                           ],
                         ),
                         trailing: IconButton(
                           icon: Icon(Icons.delete, color: Colors.red),
-                          onPressed: () =>
-                              _removeFavorite(product.id!, index),
->>>>>>> 4cdc423 (Update project)
+                          onPressed: () => _removeFavorite(product.id!, index),
                         ),
-                      ],
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => _removeFavorite(product.id!, index),
-                    ),
-                  ),
-                );
-              },
-            ),
+                      ),
+                    );
+                  },
+                ),
     );
   }
 }
@@ -914,31 +743,67 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
-  Future<void> _updateQuantity(int productId, int qty, int index) async {
-    await _db.updateCartQuantity(productId, qty);
-    if (qty <= 0) {
-      setState(() => cartItems.removeAt(index));
-    } else {
-      setState(() => cartItems[index].quantity = qty);
+  int _calculateTotalPrice() {
+    int total = 0;
+    for (var item in cartItems) {
+      int priceInt = int.tryParse(item.price.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0;
+      total += priceInt * item.quantity;
     }
+    return total;
   }
 
-  int get _totalPrice => cartItems.fold(0, (sum, item) => sum + item.subtotal);
-
-  String get _totalFormatted {
-    final total = _totalPrice;
-    final s = total.toString();
+  String _formatRupiah(int amount) {
+    final s = amount.toString();
     final result = StringBuffer();
     for (int i = 0; i < s.length; i++) {
-      if ((s.length - i) % 3 == 0 && i != 0) result.write('.');
+      if ((s.length - i) % 3 == 0 && i != 0) {
+        result.write('.');
+      }
       result.write(s[i]);
     }
     return 'Rp.$result';
   }
 
+  Future<void> _updateQty(int productId, int currentQty, int delta) async {
+    int newQty = currentQty + delta;
+    await _db.updateCartQuantity(productId, newQty);
+    await _loadCart();
+  }
+
+  Future<void> _checkout() async {
+    if (cartItems.isEmpty) return;
+
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(
+          children: [
+            Icon(Icons.check_circle, color: Colors.green),
+            SizedBox(width: 8),
+            Text('Checkout Sukses'),
+          ],
+        ),
+        content: Text('Terima kasih telah berbelanja! Pesanan Anda sedang diproses.'),
+        actions: [
+          ElevatedButton(
+            onPressed: () async {
+              await _db.clearCart();
+              Navigator.pop(ctx);
+              _loadCart();
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -946,149 +811,20 @@ class _CartPageState extends State<CartPage> {
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('My Cart', style: TextStyle(color: Colors.black)),
+        title: Text('Keranjang Belanja', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator(color: Colors.orange))
           : cartItems.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.shopping_cart_outlined,
-                    size: 80,
-                    color: Colors.grey,
-                  ),
-<<<<<<< HEAD
-                  SizedBox(height: 16),
-                  Text(
-                    'Keranjang masih kosong',
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
-                  ),
-                ],
-              ),
-            )
-          : Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    padding: EdgeInsets.all(16),
-                    itemCount: cartItems.length,
-                    itemBuilder: (context, index) {
-                      final item = cartItems[index];
-                      return Card(
-                        margin: EdgeInsets.only(bottom: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(12),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                item.image,
-                                width: 65,
-                                height: 65,
-                                errorBuilder: (c, e, s) =>
-                                    Icon(Icons.phone_android, size: 50),
-                              ),
-                              SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      item.name,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                    SizedBox(height: 2),
-                                    Text(
-                                      item.price,
-                                      style: TextStyle(
-                                        color: Colors.orange,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Warna: ${item.color}',
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.remove_circle_outline,
-                                      size: 22,
-                                    ),
-                                    onPressed: () => _updateQuantity(
-                                      item.productId,
-                                      item.quantity - 1,
-                                      index,
-                                    ),
-                                  ),
-                                  Text(
-                                    '${item.quantity}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.add_circle_outline,
-                                      color: Colors.orange,
-                                      size: 22,
-                                    ),
-                                    onPressed: () => _updateQuantity(
-                                      item.productId,
-                                      item.quantity + 1,
-                                      index,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4,
-                        offset: Offset(0, -2),
-                      ),
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.shopping_cart_outlined, size: 80, color: Colors.grey),
+                      SizedBox(height: 16),
+                      Text('Keranjang Anda kosong', style: TextStyle(color: Colors.grey, fontSize: 16)),
                     ],
                   ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Total:', style: TextStyle(fontSize: 18)),
-                          Text(
-                            _totalFormatted,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.orange,
-=======
                 )
               : Column(
                   children: [
@@ -1098,71 +834,49 @@ class _CartPageState extends State<CartPage> {
                         itemCount: cartItems.length,
                         itemBuilder: (context, index) {
                           final item = cartItems[index];
+
+                          Widget cartImage;
+                          if (item.image.startsWith('assets/')) {
+                            cartImage = Image.asset(item.image, width: 65, height: 65, fit: BoxFit.contain);
+                          } else {
+                            cartImage = Image.file(File(item.image), width: 65, height: 65, fit: BoxFit.contain);
+                          }
+
                           return Card(
                             margin: EdgeInsets.only(bottom: 12),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             child: Padding(
                               padding: EdgeInsets.all(12),
                               child: Row(
                                 children: [
-                                  Image.asset(
-                                    item.image,
+                                  Container(
                                     width: 65,
                                     height: 65,
-                                    errorBuilder: (c, e, s) => Icon(
-                                        Icons.phone_android,
-                                        size: 50),
+                                    child: cartImage,
                                   ),
                                   SizedBox(width: 12),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(item.name,
-                                            style: TextStyle(
-                                                fontWeight:
-                                                    FontWeight.bold,
-                                                fontSize: 13)),
-                                        SizedBox(height: 2),
-                                        Text(item.price,
-                                            style: TextStyle(
-                                                color: Colors.orange,
-                                                fontSize: 13)),
-                                        Text('Warna: ${item.color}',
-                                            style: TextStyle(
-                                                fontSize: 11,
-                                                color: Colors.grey)),
+                                        Text(item.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                                        SizedBox(height: 4),
+                                        Text(item.price, style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold)),
+                                        SizedBox(height: 4),
+                                        Text('Warna: ${item.color}', style: TextStyle(fontSize: 11, color: Colors.grey[600])),
                                       ],
                                     ),
                                   ),
                                   Row(
                                     children: [
                                       IconButton(
-                                        icon: Icon(
-                                            Icons.remove_circle_outline,
-                                            size: 22),
-                                        onPressed: () =>
-                                            _updateQuantity(
-                                                item.productId,
-                                                item.quantity - 1,
-                                                index),
+                                        icon: Icon(Icons.remove_circle_outline, color: Colors.orange, size: 22),
+                                        onPressed: () => _updateQty(item.productId, item.quantity, -1),
                                       ),
-                                      Text('${item.quantity}',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16)),
+                                      Text('${item.quantity}', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                                       IconButton(
-                                        icon: Icon(
-                                            Icons.add_circle_outline,
-                                            color: Colors.orange,
-                                            size: 22),
-                                        onPressed: () =>
-                                            _updateQuantity(
-                                                item.productId,
-                                                item.quantity + 1,
-                                                index),
+                                        icon: Icon(Icons.add_circle_outline, color: Colors.orange, size: 22),
+                                        onPressed: () => _updateQty(item.productId, item.quantity, 1),
                                       ),
                                     ],
                                   ),
@@ -1174,401 +888,44 @@ class _CartPageState extends State<CartPage> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.all(16),
+                      padding: EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0, -2))
-                        ],
+                        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, -2))],
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
                       ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Total:',
-                                  style: TextStyle(fontSize: 18)),
-                              Text(_totalFormatted,
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.orange)),
-                            ],
-                          ),
-                          SizedBox(height: 12),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => CheckoutPage(
-                                      cartItems: cartItems,
-                                      total: _totalFormatted,
-                                    ),
-                                  ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.orange,
-                                padding:
-                                    EdgeInsets.symmetric(vertical: 16),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(8)),
-                              ),
-                              child: Text('Checkout',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
->>>>>>> 4cdc423 (Update project)
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 12),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => CheckoutPage(
-                                  cartItems: cartItems,
-                                  total: _totalFormatted,
+                      child: SafeArea(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Total Pembayaran', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+                                Text(
+                                  _formatRupiah(_calculateTotalPrice()),
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.orange),
                                 ),
+                              ],
+                            ),
+                            SizedBox(height: 16),
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: _checkout,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.orange,
+                                  padding: EdgeInsets.symmetric(vertical: 16),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                ),
+                                child: Text('Checkout Sekarang', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                               ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
                             ),
-                          ),
-                          child: Text(
-                            'Checkout',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-    );
-  }
-}
-
-// ================================================================
-// CHECKOUT PAGE
-// ================================================================
-class CheckoutPage extends StatefulWidget {
-  final List<CartItem> cartItems;
-  final String total;
-  CheckoutPage({required this.cartItems, required this.total});
-
-  @override
-  _CheckoutPageState createState() => _CheckoutPageState();
-}
-
-class _CheckoutPageState extends State<CheckoutPage> {
-  int _selectedPayment = 1;
-  final DatabaseHelper _db = DatabaseHelper();
-
-  int get _ongkir => 15000;
-  int get _subtotalInt =>
-      widget.cartItems.fold(0, (sum, item) => sum + item.subtotal);
-  int get _grandTotal => _subtotalInt + _ongkir;
-
-  String _formatRupiah(int amount) {
-    final s = amount.toString();
-    final result = StringBuffer();
-    for (int i = 0; i < s.length; i++) {
-      if ((s.length - i) % 3 == 0 && i != 0) result.write('.');
-      result.write(s[i]);
-    }
-    return 'Rp.$result';
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text('Check Out', style: TextStyle(color: Colors.black)),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Delivery Address',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 12),
-              Card(
-                shape: RoundedRectangleBorder(
-<<<<<<< HEAD
-                  borderRadius: BorderRadius.circular(12),
-                ),
-=======
-                    borderRadius: BorderRadius.circular(12)),
->>>>>>> 4cdc423 (Update project)
-                child: Padding(
-                  padding: EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Rifky',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 4),
-                      Text('Jl. Contoh No. 123, Jakarta Selatan'),
-                      Text('Jakarta, DKI Jakarta, 12345'),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Payment Method',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 12),
-              Card(
-                shape: RoundedRectangleBorder(
-<<<<<<< HEAD
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-=======
-                    borderRadius: BorderRadius.circular(12)),
-                child: Column(
-                  children: [
-                    _buildPaymentOption(
-                        1, Icons.account_balance, 'DANA', Colors.blue),
->>>>>>> 4cdc423 (Update project)
-                    _buildPaymentOption(
-                      1,
-                      Icons.account_balance,
-                      'DANA',
-                      Colors.blue,
-                    ),
-                    _buildPaymentOption(
-                      2,
-                      Icons.payment,
-                      'Gopay',
-                      Colors.green,
-                    ),
-                    _buildPaymentOption(
-                      3,
-                      Icons.account_balance_wallet,
-                      'OVO',
-                      Colors.purple,
-                    ),
-                    _buildPaymentOption(
-                      4,
-                      Icons.credit_card,
-                      'ShopeePay',
-                      Colors.orange,
-                    ),
+                    )
                   ],
                 ),
-              ),
-              SizedBox(height: 20),
-              Card(
-                color: Colors.orange,
-                shape: RoundedRectangleBorder(
-<<<<<<< HEAD
-                  borderRadius: BorderRadius.circular(12),
-                ),
-=======
-                    borderRadius: BorderRadius.circular(12)),
->>>>>>> 4cdc423 (Update project)
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Subtotal',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Text(
-                            _formatRupiah(_subtotalInt),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Ongkir', style: TextStyle(color: Colors.white)),
-                          Text(
-                            _formatRupiah(_ongkir),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                      Divider(color: Colors.white54),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Total',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            _formatRupiah(_grandTotal),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    await _db.clearCart();
-                    Navigator.push(
-                      context,
-<<<<<<< HEAD
-                      MaterialPageRoute(builder: (_) => PaymentSuccessPage()),
-=======
-                      MaterialPageRoute(
-                          builder: (_) => PaymentSuccessPage()),
->>>>>>> 4cdc423 (Update project)
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text(
-                    'Bayar',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPaymentOption(
-    int value,
-    IconData icon,
-    String label,
-    Color color,
-  ) {
-    return ListTile(
-      leading: Icon(icon, color: color),
-      title: Text(label),
-      trailing: Radio<int>(
-        value: value,
-        groupValue: _selectedPayment,
-        activeColor: Colors.orange,
-        onChanged: (val) => setState(() => _selectedPayment = val!),
-      ),
-    );
-  }
-}
-
-// ================================================================
-// PAYMENT SUCCESS PAGE
-// ================================================================
-class PaymentSuccessPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.check_circle, color: Colors.orange, size: 100),
-              SizedBox(height: 24),
-<<<<<<< HEAD
-              Text(
-                'Hooray! Payment Successful!',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-=======
-              Text('Hooray! Payment Successful!',
-                  style: TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center),
->>>>>>> 4cdc423 (Update project)
-              SizedBox(height: 12),
-              Text('Your payment has been successfully done.',
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.center),
-              SizedBox(height: 40),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () =>
-                      Navigator.of(context).popUntil((r) => r.isFirst),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text(
-                    'Kembali ke Home',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
@@ -1583,7 +940,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final DatabaseHelper _db = DatabaseHelper();
-  UserProfile? profile;
+  Map<String, dynamic>? profileData;
   bool isLoading = true;
 
   @override
@@ -1595,179 +952,192 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _loadProfile() async {
     final data = await _db.getProfile();
     setState(() {
-      if (data != null) profile = UserProfile.fromMap(data);
+      profileData = data;
       isLoading = false;
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: isLoading
-          ? Center(child: CircularProgressIndicator(color: Colors.orange))
-          : Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.orange, Colors.orangeAccent],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
-              child: SafeArea(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Row(
-                        children: [
-                          IconButton(
-<<<<<<< HEAD
-                            icon: Icon(Icons.arrow_back, color: Colors.white),
-=======
-                            icon:
-                                Icon(Icons.arrow_back, color: Colors.white),
->>>>>>> 4cdc423 (Update project)
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                          Spacer(),
-                          Text(
-                            'Profile',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Spacer(),
-                          IconButton(
-                            icon: Icon(Icons.edit, color: Colors.white),
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
-                    ),
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.white,
-<<<<<<< HEAD
-                      child: Icon(Icons.person, size: 60, color: Colors.orange),
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      profile?.name ?? '-',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      profile?.email ?? '-',
-                      style: TextStyle(color: Colors.white70, fontSize: 14),
-                    ),
-=======
-                      child: Icon(Icons.person,
-                          size: 60, color: Colors.orange),
-                    ),
-                    SizedBox(height: 16),
-                    Text(profile?.name ?? '-',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold)),
-                    SizedBox(height: 4),
-                    Text(profile?.email ?? '-',
-                        style:
-                            TextStyle(color: Colors.white70, fontSize: 14)),
->>>>>>> 4cdc423 (Update project)
-                    SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _buildStatCard('${profile?.vouchers ?? 0}', 'Vouchers'),
-                        _buildStatCard('${profile?.orders ?? 0}', 'Pesanan'),
-                        _buildStatCard('${profile?.reviews ?? 0}', 'Ulasan'),
-                      ],
-                    ),
-                    SizedBox(height: 30),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
-                          ),
-                        ),
-                        child: ListView(
-                          padding: EdgeInsets.all(16),
-                          children: [
-                            _buildMenuItem(
-                              Icons.person_outline,
-                              'Account',
-                              () {},
-                            ),
-                            _buildMenuItem(
-                              Icons.location_on_outlined,
-                              'Address',
-                              () {},
-                            ),
-                            _buildMenuItem(
-                              Icons.receipt_outlined,
-                              'Transaction',
-                              () {},
-                            ),
-                            _buildMenuItem(
-                              Icons.help_outline,
-                              'Help Center',
-                              () {},
-                            ),
-                            _buildMenuItem(Icons.logout, 'Logout', () {}),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-    );
-  }
+  void _editProfileDialog() {
+    if (profileData == null) return;
 
-  Widget _buildStatCard(String count, String label) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          Text(
-            count,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.orange,
-            ),
+    final nameCtrl = TextEditingController(text: profileData!['name']);
+    final emailCtrl = TextEditingController(text: profileData!['email']);
+    final addressCtrl = TextEditingController(text: profileData!['address'] ?? '');
+
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text('Edit Profil'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(controller: nameCtrl, decoration: InputDecoration(labelText: 'Nama Lengkap')),
+              SizedBox(height: 12),
+              TextField(controller: emailCtrl, decoration: InputDecoration(labelText: 'Email')),
+              SizedBox(height: 12),
+              TextField(controller: addressCtrl, decoration: InputDecoration(labelText: 'Alamat')),
+            ],
           ),
-          SizedBox(height: 4),
-          Text(label, style: TextStyle(fontSize: 12, color: Colors.grey)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text('Batal', style: TextStyle(color: Colors.grey)),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await _db.updateProfile(
+                nameCtrl.text.trim(),
+                emailCtrl.text.trim(),
+                addressCtrl.text.trim(),
+              );
+              Navigator.pop(ctx);
+              _loadProfile();
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+            child: Text('Simpan'),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildMenuItem(IconData icon, String title, VoidCallback onTap) {
+  @override
+  Widget build(BuildContext context) {
+    if (isLoading) {
+      return Scaffold(body: Center(child: CircularProgressIndicator(color: Colors.orange)));
+    }
+
+    final profile = profileData ?? {
+      'name': 'Rifky Surya Pratama',
+      'email': 'rifky@student.com',
+      'address': 'Semarang, Indonesia',
+      'vouchers': 5,
+      'orders': 12,
+      'reviews': 8
+    };
+
+    return Scaffold(
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        backgroundColor: Colors.orange,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text('Profil Saya', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.edit, color: Colors.white),
+            onPressed: _editProfileDialog,
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              color: Colors.orange,
+              width: double.infinity,
+              padding: EdgeInsets.only(bottom: 32, top: 16),
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.white,
+                    child: Icon(Icons.person, size: 60, color: Colors.orange),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    profile['name'],
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  SizedBox(height: 6),
+                  Text(
+                    profile['email'],
+                    style: TextStyle(fontSize: 14, color: Colors.white70),
+                  ),
+                  SizedBox(height: 6),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.location_on, size: 14, color: Colors.white70),
+                      SizedBox(width: 4),
+                      Text(
+                        profile['address'] ?? 'Belum diatur',
+                        style: TextStyle(fontSize: 13, color: Colors.white70),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(vertical: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 3))],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildStatColumn('Voucher', '${profile['vouchers']}'),
+                  _buildStatColumn('Pesanan', '${profile['orders']}'),
+                  _buildStatColumn('Ulasan', '${profile['reviews']}'),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  _buildMenuTile(Icons.shopping_bag_outlined, 'Riwayat Transaksi'),
+                  _buildMenuTile(Icons.payment_outlined, 'Metode Pembayaran'),
+                  _buildMenuTile(Icons.privacy_tip_outlined, 'Keamanan Akun'),
+                  _buildMenuTile(Icons.help_outline, 'Pusat Bantuan'),
+                  SizedBox(height: 20),
+                  Card(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    child: ListTile(
+                      leading: Icon(Icons.logout, color: Colors.red),
+                      title: Text('Keluar Akun', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                      onTap: () {},
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatColumn(String label, String value) {
+    return Column(
+      children: [
+        Text(value, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.orange)),
+        SizedBox(height: 4),
+        Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+      ],
+    );
+  }
+
+  Widget _buildMenuTile(IconData icon, String title) {
     return Card(
-      margin: EdgeInsets.only(bottom: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      margin: EdgeInsets.only(bottom: 10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
         leading: Icon(icon, color: Colors.orange),
-        title: Text(title),
+        title: Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
         trailing: Icon(Icons.chevron_right, color: Colors.grey),
-        onTap: onTap,
+        onTap: () {},
       ),
     );
   }

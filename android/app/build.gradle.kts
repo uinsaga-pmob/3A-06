@@ -24,7 +24,10 @@ android {
         applicationId = "com.example.pmobuas"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        
+        // Diubah menjadi 21 secara eksplisit untuk mendukung plugin image_picker
+        minSdk = flutter.minSdkVersion 
+        
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
